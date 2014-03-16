@@ -3,8 +3,7 @@ __author__ = 'becky'
 
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-
+import argparse
 
 
 def gauge(units, stitches, rows):
@@ -39,7 +38,6 @@ def cast_on_stitches(st_gauge, foot_circum, ease):
     return cast_on
 
 
-
 def short_row_end_stitches(start_stitches, percent):
     """
     Calcuates number of stitches at end of short row toe; this number is even if the number of toe stitches is even,
@@ -64,6 +62,7 @@ def short_row_end_stitches(start_stitches, percent):
                 return x - 1
         else:
             return x
+
 
 def short_row_end_test():
     print "Test short row end sts:"
@@ -95,9 +94,9 @@ def get_input():
 
     return input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease
 
-def pattern():
 
-    input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease = get_input()
+def pattern(input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease):
+
     rgauge, stgauge, units = gauge(input_units, swatch_stitches, swatch_rows)
     cast_on = cast_on_stitches(stgauge, foot_circum, ease)
     heel_end = short_row_end_stitches(cast_on, 0.4)
@@ -139,16 +138,25 @@ def pattern():
     print "Switch to K1P1 or K2P2 ribbing for 1 - 1.5 inches or desired length."
     print "Cast off and weave in ends."
 
+
 def main():
 
-    pattern()
+    parser = argparse.ArgumentParser(description="""Generates a sock pattern with short row heel and toe.""")
+    parser.add_argument("-u", "--units", default="inch", help="Units for pattern; enter inches or cm.")
+    parser.add_argument("-s", "--swatchstitches", type=int, help='Number of stitches in 4" or 10 cm.')
+    parser.add_argument("-r", "--swatchrows", type=int, help='Number of rows in 4" or 10 cm.')
+    parser.add_argument("-c", "--circumf", type=int, help="Circumference of foot at widest point in chosen units.")
+    parser.add_argument("-l", "--length", type=int, help="Length of foot in chosen units.")
+    parser.add_argument("-e", "--ease", type=int, default=-10, help="Ease: enter as +ve or -ve percentage. Default is -10%%.")
 
-    #rgauge, sgauge, units = gauge("Inch", 28, 32)
-    #print "Gauge is %.2f rows and %.2f stitches per %s" % (sgauge, rgauge, units)
+    args = parser.parse_args()
 
-    #cast_on = cast_on_stitches(sgauge, 9, -10)
-    #print "Stitches at end of short row toe: ", short_row_end_stitches(cast_on, 0.3), "\n"
+    if args.swatchstitches and args.swatchrows and args.circumf and args.length:
+        pattern(args.units, args.swatchstitches, args.swatchrows, args.circumf, args.length, args.ease)
 
+    else:
+        input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease = get_input()
+        pattern(input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease)
 
 
 if __name__ == '__main__':
