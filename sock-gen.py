@@ -33,8 +33,8 @@ def cast_on_stitches(st_gauge, foot_circum, ease):
     """
     sock_circum = float(foot_circum) + (float(foot_circum) * (float(ease)/100))
     cast_on = round((float(sock_circum) * st_gauge) / 2)
-    #print "Foot circumference: %.2f\nSock circumference: %.2f\nCast on for toe: %.2f" % \
-    #      (float(foot_circum), sock_circum, cast_on)
+    print "Foot circumference: %.2f\nSock circumference: %.2f\nCast on for toe: %.2f" % \
+          (float(foot_circum), sock_circum, cast_on)
     return cast_on
 
 
@@ -66,10 +66,10 @@ def short_row_end_stitches(start_stitches, percent):
 
 def short_row_end_test():
     print "Test short row end sts:"
-    toe_stitch_list = [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]
+    toe_stitch_list = [24, 26, 28, 30, 32, 34, 36, 37]
     for i in toe_stitch_list:
-        print "Toe stitches: ", i, "; toe end sts: ", short_row_end_stitches(int(i), 0.3)
-        print "Heel stitches: ", i, "; heel end sts: ", short_row_end_stitches(int(i), 0.4)
+        print "Toe stitches: ", i, "; toe end sts: ", short_row_end_stitches(int(i), 0.4)
+        print "Heel stitches: ", i, "; heel end sts: ", short_row_end_stitches(int(i), 0.5)
 
 
 def short_row_length(start_stitches, end_stitches, rgauge):
@@ -87,10 +87,10 @@ def get_input():
     """
     input_units = raw_input("Units (inch/cm):")
     swatch_stitches = float(raw_input("Stitches per 10cm/4in:"))
-    swatch_rows = float(raw_input("Rows per 10sm/4in:"))
+    swatch_rows = float(raw_input("Rows per 10cm/4in:"))
     foot_circum = float(raw_input("Foot circumference in %s at widest point:" % input_units))
     foot_length = float(raw_input("Foot length in %s:" % input_units))
-    ease = float(raw_input("Ease required in % (standard is -10):"))
+    ease = float(raw_input("Ease required in % (standard is -8):"))
 
     return input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease
 
@@ -99,8 +99,8 @@ def pattern(input_units, swatch_stitches, swatch_rows, foot_circum, foot_length,
 
     rgauge, stgauge, units = gauge(input_units, swatch_stitches, swatch_rows)
     cast_on = cast_on_stitches(stgauge, foot_circum, ease)
-    heel_end = short_row_end_stitches(cast_on, 0.4)
-    toe_end = short_row_end_stitches(cast_on, 0.3)
+    heel_end = short_row_end_stitches(cast_on, 0.5)
+    toe_end = short_row_end_stitches(cast_on, 0.4)
     heel_length = short_row_length(cast_on, toe_end, rgauge)
 
     print "TOE"
@@ -147,7 +147,7 @@ def main():
     parser.add_argument("-r", "--swatchrows", type=int, help='Number of rows in 4" or 10 cm.')
     parser.add_argument("-c", "--circumf", type=int, help="Circumference of foot at widest point in chosen units.")
     parser.add_argument("-l", "--length", type=int, help="Length of foot in chosen units.")
-    parser.add_argument("-e", "--ease", type=int, default=-10, help="Ease: enter as +ve or -ve percentage. Default is -10%%.")
+    parser.add_argument("-e", "--ease", type=int, default=-8, help="Ease: enter as +ve or -ve percentage. Default is -8%%.")
 
     args = parser.parse_args()
 
