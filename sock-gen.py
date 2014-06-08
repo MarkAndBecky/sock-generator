@@ -29,7 +29,7 @@ def gauge(units, stitches, rows):
 def cast_on_stitches(st_gauge, foot_circum, ease):
     """
     Calculates number of stitches to provisionally cast on to start short row toe.
-    Ease should be entered as a percentage, negative or positive (-10 is usual).
+    Ease should be entered as a percentage, negative or positive (usually negative for socks).
     """
     sock_circum = float(foot_circum) + (float(foot_circum) * (float(ease)/100))
     cast_on = round((float(sock_circum) * st_gauge) / 2)
@@ -103,40 +103,42 @@ def pattern(input_units, swatch_stitches, swatch_rows, foot_circum, foot_length,
     toe_end = short_row_end_stitches(cast_on, 0.4)
     heel_length = short_row_length(cast_on, toe_end, rgauge)
 
-    print "TOE"
-    print "Provisional cast on %d stitches." % cast_on
-    print "Knit %d stitches until 1 stitch before end, wrap and turn." % (cast_on -1)
-    print "Purl %d stitches until 1 stitch before end, wrap and turn." % (cast_on -2)
-    print "Knit %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -3)
-    print "Purl %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -4)
-    print "Continue short rows until %d stitches remain unwrapped.  %d stitches wrapped on each side." % \
-          (toe_end, (cast_on - toe_end)/2)
-    print "Knit %d, pick up and knit wrap and next stitch together, wrap and turn" % toe_end
-    print "Purl %d, pick up and purl wrap and next stitch together, wrap and turn" % (toe_end + 1)
-    print "Knit %d, pick up and knit both wraps and next stitch together, wrap and turn" % (toe_end + 2)
-    print "Purl %d, pick up and purl both wrap and next stitch together, wrap and turn" % (toe_end + 3)
-    print "Continue until all wraps have been consumed."
-    print "FOOT"
-    print "Pick up provisional stitches and begin knitting in the round.  First half of stitches will be the sole, " \
-          "second half will be the instep."
-    print "Knit until sock measures %.2f %s." % (foot_length - heel_length, units)
-    print "HEEL"
-    print "Knit %d stitches until 1 stitch before end of sole stitches, wrap and turn." % (cast_on -1)
-    print "Purl %d stitches until 1 stitch before end of sole stitches, wrap and turn." % (cast_on -2)
-    print "Knit %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -3)
-    print "Purl %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -4)
-    print "Continue short rows until %d stitches remain unwrapped.  %d stitches wrapped on each side." % \
-          (heel_end, (cast_on - heel_end)/2)
-    print "Knit %d, pick up and knit wrap and next stitch together, wrap and turn" % heel_end
-    print "Purl %d, pick up and purl wrap and next stitch together, wrap and turn" % (heel_end + 1)
-    print "Knit %d, pick up and knit both wraps and next stitch together, wrap and turn" % (heel_end + 2)
-    print "Purl %d, pick up and purl both wrap and next stitch together, wrap and turn" % (heel_end + 3)
-    print "Continue until all wraps have been consumed."
-    print "LEG"
-    print "Resume knitting in the round.  Knit until leg is %d %s, or desired length before end ribbing." % \
-          (foot_length, units)
-    print "Switch to K1P1 or K2P2 ribbing for 1 - 1.5 inches or desired length."
-    print "Cast off and weave in ends."
+    pattern = [
+        "TOE",
+        "Provisional cast on %d stitches." % cast_on,
+        "Knit %d stitches until 1 stitch before end, wrap and turn." % (cast_on -1),
+        "Purl %d stitches until 1 stitch before end, wrap and turn." % (cast_on -2),
+        "Knit %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -3),
+        "Purl %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -4),
+        "Continue short rows until %d stitches remain unwrapped.  %d stitches wrapped on each side." % \
+          (toe_end, (cast_on - toe_end)/2),
+        "Knit %d, pick up and knit wrap and next stitch together, wrap and turn" % toe_end,
+        "Purl %d, pick up and purl wrap and next stitch together, wrap and turn" % (toe_end + 1),
+        "Knit %d, pick up and knit both wraps and next stitch together, wrap and turn" % (toe_end + 2),
+        "Purl %d, pick up and purl both wrap and next stitch together, wrap and turn" % (toe_end + 3),
+        "Continue until all wraps have been consumed.",
+        "FOOT",
+        "Pick up provisional stitches and begin knitting in the round.  First half of stitches will be the sole, second half will be the instep.",
+        "Knit until sock measures %.2f %s." % (foot_length - heel_length, units),
+        "HEEL",
+        "Knit %d stitches until 1 stitch before end of sole stitches, wrap and turn." % (cast_on -1),
+        "Purl %d stitches until 1 stitch before end of sole stitches, wrap and turn." % (cast_on -2),
+        "Knit %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -3),
+        "Purl %d stitches until 1 stitch before first wrapped stitch, wrap and turn." % (cast_on -4),
+        "Continue short rows until %d stitches remain unwrapped.  %d stitches wrapped on each side." % \
+          (heel_end, (cast_on - heel_end)/2),
+        "Knit %d, pick up and knit wrap and next stitch together, wrap and turn" % heel_end,
+        "Purl %d, pick up and purl wrap and next stitch together, wrap and turn" % (heel_end + 1),
+        "Knit %d, pick up and knit both wraps and next stitch together, wrap and turn" % (heel_end + 2),
+        "Purl %d, pick up and purl both wrap and next stitch together, wrap and turn" % (heel_end + 3),
+        "Continue until all wraps have been consumed.",
+        "LEG",
+        "Resume knitting in the round.  Knit until leg is %d %s, or desired length before end ribbing." % \
+          (foot_length, units),
+        "Switch to K1P1 or K2P2 ribbing for 1 - 1.5 inches or desired length.",
+        "Cast off and weave in ends."
+        ]
+    return pattern
 
 
 def main():
@@ -152,12 +154,13 @@ def main():
     args = parser.parse_args()
 
     if args.swatchstitches and args.swatchrows and args.circumf and args.length:
-        pattern(args.units, args.swatchstitches, args.swatchrows, args.circumf, args.length, args.ease)
-
+        pat = pattern(args.units, args.swatchstitches, args.swatchrows, args.circumf, args.length, args.ease)
     else:
         input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease = get_input()
-        pattern(input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease)
+        pat = pattern(input_units, swatch_stitches, swatch_rows, foot_circum, foot_length, ease)
 
+    for i in pat:
+        print i
 
 if __name__ == '__main__':
     main()
